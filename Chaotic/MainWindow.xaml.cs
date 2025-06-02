@@ -3,6 +3,7 @@ using Chaotic.Tasks;
 using Chaotic.Tasks.Una;
 using Chaotic.User;
 using Chaotic.Utilities;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing.Imaging;
@@ -106,6 +107,142 @@ namespace Chaotic
         public List<String> AvailableClasses { get { return UserCharacter.AllClasses; } }
         public List<String> AvailableUnaTaskNames { get { return UnaTasks.AvailableUnaTasks; } }
 
+        private ObservableCollection<UserKeyboardKey> _AvailableKeyboardKeys = new ObservableCollection<UserKeyboardKey>()
+        {
+            new UserKeyboardKey() { Display = "A", InputKey = Key.A, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "B", InputKey = Key.B, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "C", InputKey = Key.C, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "D", InputKey = Key.D, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "E", InputKey = Key.E, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F", InputKey = Key.F, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "G", InputKey = Key.G, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "H", InputKey = Key.H, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "I", InputKey = Key.I, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "J", InputKey = Key.J, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "K", InputKey = Key.K, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "L", InputKey = Key.L, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "M", InputKey = Key.M, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "N", InputKey = Key.N, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "O", InputKey = Key.O, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "P", InputKey = Key.P, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "Q", InputKey = Key.Q, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "R", InputKey = Key.R, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "S", InputKey = Key.S, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "T", InputKey = Key.T, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "U", InputKey = Key.U, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "V", InputKey = Key.V, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "W", InputKey = Key.W, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "X", InputKey = Key.X, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "Y", InputKey = Key.Y, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "Z", InputKey = Key.Z, Modifier = KeyboardModifier.None },
+
+            new UserKeyboardKey() { Display = "Alt-A", InputKey = Key.A, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-B", InputKey = Key.B, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-C", InputKey = Key.C, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-D", InputKey = Key.D, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-E", InputKey = Key.E, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-F", InputKey = Key.F, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-G", InputKey = Key.G, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-H", InputKey = Key.H, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-I", InputKey = Key.I, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-J", InputKey = Key.J, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-K", InputKey = Key.K, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-L", InputKey = Key.L, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-M", InputKey = Key.M, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-N", InputKey = Key.N, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-O", InputKey = Key.O, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-P", InputKey = Key.P, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-Q", InputKey = Key.Q, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-R", InputKey = Key.R, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-S", InputKey = Key.S, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-T", InputKey = Key.T, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-U", InputKey = Key.U, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-V", InputKey = Key.V, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-W", InputKey = Key.W, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-X", InputKey = Key.X, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-Y", InputKey = Key.Y, Modifier = KeyboardModifier.Alt },
+            new UserKeyboardKey() { Display = "Alt-Z", InputKey = Key.Z, Modifier = KeyboardModifier.Alt },
+
+            new UserKeyboardKey() { Display = "Ctrl-A", InputKey = Key.A, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-B", InputKey = Key.B, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-C", InputKey = Key.C, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-D", InputKey = Key.D, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-E", InputKey = Key.E, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-F", InputKey = Key.F, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-G", InputKey = Key.G, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-H", InputKey = Key.H, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-I", InputKey = Key.I, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-J", InputKey = Key.J, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-K", InputKey = Key.K, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-L", InputKey = Key.L, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-M", InputKey = Key.M, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-N", InputKey = Key.N, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-O", InputKey = Key.O, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-P", InputKey = Key.P, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-Q", InputKey = Key.Q, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-R", InputKey = Key.R, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-S", InputKey = Key.S, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-T", InputKey = Key.T, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-U", InputKey = Key.U, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-V", InputKey = Key.V, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-W", InputKey = Key.W, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-X", InputKey = Key.X, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-Y", InputKey = Key.Y, Modifier = KeyboardModifier.Ctrl },
+            new UserKeyboardKey() { Display = "Ctrl-Z", InputKey = Key.Z, Modifier = KeyboardModifier.Ctrl },
+
+            new UserKeyboardKey() { Display = "Shift-A", InputKey = Key.A, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-B", InputKey = Key.B, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-C", InputKey = Key.C, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-D", InputKey = Key.D, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-E", InputKey = Key.E, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-F", InputKey = Key.F, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-G", InputKey = Key.G, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-H", InputKey = Key.H, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-I", InputKey = Key.I, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-J", InputKey = Key.J, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-K", InputKey = Key.K, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-L", InputKey = Key.L, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-M", InputKey = Key.M, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-N", InputKey = Key.N, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-O", InputKey = Key.O, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-P", InputKey = Key.P, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-Q", InputKey = Key.Q, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-R", InputKey = Key.R, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-S", InputKey = Key.S, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-T", InputKey = Key.T, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-U", InputKey = Key.U, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-V", InputKey = Key.V, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-W", InputKey = Key.W, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-X", InputKey = Key.X, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-Y", InputKey = Key.Y, Modifier = KeyboardModifier.Shift },
+            new UserKeyboardKey() { Display = "Shift-Z", InputKey = Key.Z, Modifier = KeyboardModifier.Shift },
+
+            new UserKeyboardKey() { Display = "1", InputKey = Key.D1, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "2", InputKey = Key.D2, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "3", InputKey = Key.D3, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "4", InputKey = Key.D4, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "5", InputKey = Key.D5, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "6", InputKey = Key.D6, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "7", InputKey = Key.D7, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "8", InputKey = Key.D8, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "9", InputKey = Key.D9, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "0", InputKey = Key.D0, Modifier = KeyboardModifier.None },
+
+            new UserKeyboardKey() { Display = "F1", InputKey = Key.F1, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F2", InputKey = Key.F2, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F3", InputKey = Key.F3, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F4", InputKey = Key.F4, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F5", InputKey = Key.F5, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F6", InputKey = Key.F6, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F7", InputKey = Key.F7, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F8", InputKey = Key.F8, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F9", InputKey = Key.F9, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F10", InputKey = Key.F10, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F11", InputKey = Key.F11, Modifier = KeyboardModifier.None },
+            new UserKeyboardKey() { Display = "F12", InputKey = Key.F12, Modifier = KeyboardModifier.None }
+        };
+        public ObservableCollection<UserKeyboardKey> AvailableKeyboardKeys { get { return _AvailableKeyboardKeys; } }
+
         private List<int> _AvailableChaosLevels = new List<int>()
         {
             1415,
@@ -120,7 +257,8 @@ namespace Chaotic
             1610,
             1640,
             1660,
-            1680
+            1680,
+            1700
         };
 
         private List<string> _AvailableRaidPresets = new List<string>()
@@ -345,7 +483,7 @@ namespace Chaotic
             _r = ApplicationResources.Create(UserSettings.Resolution);
             //_r = new ApplicationResources("Chaotic.Resources." + UserSettings.Resolution);
             _uit = new UITasks(UserSettings, _mouse, _kb, _r, _logger);
-            _gt = new GuildTasks(UserSettings, _mouse, _kb, _r, _logger);
+            _gt = new GuildTasks(UserSettings, _uit, _mouse, _kb, _r, _logger);
             _ut = new UnaTasks(UserSettings, _mouse, _kb, _r, _uit, _logger);
             _ct = new ChaosTasks(UserSettings, _mouse, _kb, _r, _uit, _logger);
         }
@@ -435,11 +573,12 @@ namespace Chaotic
                 if (success && (UserSettings.MoveHoningMaterials || UserSettings.MoveGems))
                 {
                     success = success && _uit.OpenInventoryManagement();
-                    if (UserSettings.MoveHoningMaterials)
+                    if (success && UserSettings.MoveHoningMaterials)
                         success = success && _uit.MoveHoningMaterials();
-                    if (UserSettings.MoveGems && !character.IsMain)
+                    if (success && UserSettings.MoveGems && !character.IsMain)
                         success = success && _uit.MoveGems();
-                    success = success && _uit.CloseInventoryManagement();
+                    if (success)
+                        success = success && _uit.CloseInventoryManagement();
                 }
             }
 
@@ -490,6 +629,7 @@ namespace Chaotic
         {
             Action a = () =>
             {
+                _mouse.ClickCenterScreen(_r.CenterScreen);
                 Thread.Sleep(1000);
 
                 if (_settings.GoOffline)
@@ -604,13 +744,13 @@ namespace Chaotic
                 //_logger.Log(LogDetailLevel.Debug, "Listening for pause");
                 _kb.Listen(Key.Pause, () =>
                 {
-                    _logger.Log(LogDetailLevel.Debug, "Pause pressed");
+                    _logger.Log(LogDetailLevel.Info, "Pause pressed");
                     TogglePause();
                     //CancelWorker();
                 });
                 _kb.Listen(Key.End, () =>
                 {
-                    _logger.Log(LogDetailLevel.Debug, "End Processing Pressed");
+                    _logger.Log(LogDetailLevel.Info, "End Processing Pressed");
                     CancelWorker();
                 });
                 _bw.RunWorkerAsync();
@@ -689,8 +829,12 @@ namespace Chaotic
             Action a = () =>
             {
 
-                if (CurrentDailySelectedChar != null)
-                    _uit.BuyGuildShop(CurrentDailySelectedChar);
+                var okButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation($"ok_button.png", _settings.Resolution), confidence: .99, breakAfterFirst: true, maxTries: 3);
+                if (okButton.Found)
+                {
+                    _logger.Log(LogDetailLevel.Debug, $"Item OK Button found.  Confidence: {okButton.MaxConfidence}");
+                    _mouse.ClickPosition(okButton.Center, 1000);
+                }
             };
 
             CreateBackgroundWorker(a);
@@ -765,5 +909,6 @@ namespace Chaotic
         {
             CancelWorker();
         }
+
     }
 }

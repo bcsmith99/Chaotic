@@ -123,7 +123,7 @@ namespace Chaotic.Tasks.Chaos.Class
                 if (skill.IsAwakening && _char.HasHyperSkill)
                     skillRegion = (OpenCvSharp.Rect)_r.GetType().GetProperty($"Skill_Hyper{skill.SkillKey}").GetValue(_r);
 
-                var skillFound = IP.LocateCenterOnScreen(ms, skillRegion, confidence);
+                var skillFound = IP.LocateCenterOnScreen($"Skill {skill.SkillKey}", ms, skillRegion, confidence);
                 return skillFound;
             }
         }
@@ -146,7 +146,7 @@ namespace Chaotic.Tasks.Chaos.Class
                 _kb.Press((Key)_kc.ConvertFromString(skill.SkillKey), 300);
             else if (skill.SkillType == "Hold")
             {
-                _logger.Log(LogDetailLevel.Debug, "Attempting to hold a key");
+                //_logger.Log(LogDetailLevel.Debug, "Attempting to hold a key");
                 _kb.Hold((Key)_kc.ConvertFromString(skill.SkillKey), skill.Duration);
             }
 

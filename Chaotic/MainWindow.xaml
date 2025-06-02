@@ -373,6 +373,12 @@
 										  IsChecked="{Binding CurrentSelectedEditChar.BuyGuildAllied2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
 								<CheckBox VerticalAlignment="Center"
+										  Content="Yoz Chest (1700)"
+										  Margin="15,5,0,0"
+										  IsEnabled="{Binding CurrentSelectedEditChar.BuyGuildShop}"
+										  IsChecked="{Binding CurrentSelectedEditChar.BuyGuildYoz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+								<CheckBox VerticalAlignment="Center"
 										  Margin="0,5,0,0"
 										  Content="Una Tasks"
 										  IsChecked="{Binding CurrentSelectedEditChar.RunUnas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
@@ -711,7 +717,14 @@
 								   FontSize="16"
 								   FontWeight="Bold"
 								   Margin="0,10,0,0"></Label>
-							<Grid Margin="10,0,0,0">
+
+							<CheckBox Content="Prefer Keyboard Shortcuts"
+									  IsChecked="{Binding UserSettings.PreferKeyboardShortcuts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									  FontWeight="Bold"
+									  Margin="5,10,0,0"></CheckBox>
+
+							<Grid Margin="10,0,0,0"
+								  IsEnabled="{Binding UserSettings.PreferKeyboardShortcuts}">
 								<Grid.Resources>
 									<Style TargetType="Border">
 										<Setter Property="Padding"
@@ -724,35 +737,85 @@
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 
-								<Label Content="Interact (G)"></Label>
-								<Border Grid.Column="1">
-									<ComboBox ItemsSource="{Binding AllAvailableKeys}"
-											  SelectedValuePath="Key"
+								<StackPanel Grid.Column="0">
+									<StackPanel.Resources>
+										<Style TargetType="Label">
+											<Setter Property="Margin"
+													Value="0,0,0,5" />
+											<Setter Property="Height"
+													Value="26" />
+										</Style>
+									</StackPanel.Resources>
+									<Label Content="Interact (G)"></Label>
+									<Label Content="Skip Interact (Shift-G)"></Label>
+									<Label Content="Special 1 (Z)"></Label>
+									<Label Content="Special 2 (X)"></Label>
+									<Label Content="Guild Menu (Alt-U)"></Label>
+									<Label Content="Friends Menu (U)"></Label>
+									<Label Content="Pet Menu (Alt-P)"></Label>
+									<Label Content="Content Menu (Alt-Q)"></Label>
+									<Label Content="Una Menu (Alt-J)"></Label>
+									<Label Content="Bifrost Menu (Alt-W)"></Label>
+									<Label Content="Music Menu (F2)"></Label>
+								</StackPanel>
+								<StackPanel Grid.Column="1">
+									<StackPanel.Resources>
+										<Style TargetType="ComboBox">
+											<Setter Property="Margin"
+													Value="0,0,0,5" />
+											<Setter Property="Height"
+													Value="26" />
+										</Style>
+									</StackPanel.Resources>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.InteractShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.FastInteractShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.Special1ShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.Special2ShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.GuildShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.FriendsShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.PetShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.ContentShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.UnaShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.BifrostShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.MusicShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+								</StackPanel>
+
+								<Border Grid.Column="1">
+
 								</Border>
-								<Label Content="Special 1 (Z)"
-									   Grid.Row="1"></Label>
+
 								<Border Grid.Column="1"
 										Grid.Row="1">
-									<ComboBox ItemsSource="{Binding AllAvailableKeys}"
-											  SelectedValuePath="Key"
-											  DisplayMemberPath="Display"></ComboBox>
+
 								</Border>
-								<Label Content="Special 2 (X)"
-									   Grid.Row="2"></Label>
+
 								<Border Grid.Column="1"
 										Grid.Row="2">
-									<ComboBox ItemsSource="{Binding AllAvailableKeys}"
-											  SelectedValuePath="Key"
-											  DisplayMemberPath="Display"></ComboBox>
+
 								</Border>
 
 							</Grid>

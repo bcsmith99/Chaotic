@@ -53,19 +53,24 @@ namespace Chaotic.Tasks
         public int AcceptDailies(UserCharacter character)
         {
             BackgroundProcessing.ProgressCheck();
-            int dailiesAccepted = 0; 
+            int dailiesAccepted = 0;
 
             if (!character.RunUnas)
                 return dailiesAccepted;
 
-            _mouse.ClickPosition(_r.AdventureMenu, 1000);
-            _mouse.ClickPosition(_r.UnaTask, 1500);
+            if (_settings.PreferKeyboardShortcuts)
+            {
+                _uiTasks.PressSpecialKey(_settings.UnaShortcutKey, 1500);
+            }
+            else
+            {
+                _mouse.ClickPosition(_r.AdventureMenu, 1000);
+                _mouse.ClickPosition(_r.UnaTask, 1500);
+            }
+
             _mouse.ClickPosition(_r.UnaDaily, 1000);
             _mouse.ClickPosition(_r.UnaDailyDropdown, 300);
             _mouse.ClickPosition(_r.UnaDailyDropdownFavorite, 500);
-
-
-            //TODO: Possibly replace with image recognition for the accept button and doing it 1-n times.
 
             var acceptMatches = IP.LocateOnScreen(Utility.ImageResourceLocation("accept_button.png", _settings.Resolution),
                 _r.UnaDailyRegion, .95);
@@ -74,10 +79,6 @@ namespace Chaotic.Tasks
             {
                 _mouse.ClickPosition(acceptMatch.Center.X, acceptMatch.Center.Y, 500);
             }
-
-            //_mouse.ClickPosition(_r["UnaDailyAccept1"], 500);
-            //_mouse.ClickPosition(_r["UnaDailyAccept2"], 500);
-            //_mouse.ClickPosition(_r["UnaDailyAccept3"], 500);
 
             _kb.Press(Key.Escape);
 
@@ -88,8 +89,16 @@ namespace Chaotic.Tasks
         {
             BackgroundProcessing.ProgressCheck();
 
-            _mouse.ClickPosition(_r.AdventureMenu, 1000);
-            _mouse.ClickPosition(_r.UnaTask, 1500);
+
+            if (_settings.PreferKeyboardShortcuts)
+            {
+                _uiTasks.PressSpecialKey(_settings.UnaShortcutKey, 1500);
+            }
+            else
+            {
+                _mouse.ClickPosition(_r.AdventureMenu, 1000);
+                _mouse.ClickPosition(_r.UnaTask, 1500);
+            }
             _mouse.ClickPosition(_r.UnaWeekly, 1000);
             _mouse.ClickPosition(_r.UnaWeeklyDropdown, 300);
             _mouse.ClickPosition(_r.UnaWeeklyDropdownFavorite, 500);
@@ -126,7 +135,7 @@ namespace Chaotic.Tasks
                 ((Lopang)task).RunShushireOnly = character.RunLopangShushireOnly;
                 task.RunUna(1);
             }
-                
+
 
         }
 

@@ -3,20 +3,32 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.TextFormatting;
 
 namespace Chaotic.User
 {
-    public class UserSettings
+    public class UserSettings : INotifyPropertyChanged
     {
         public UserSettings()
         {
             Characters = new ObservableCollection<UserCharacter>();
         }
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+
 
         public LogDetailLevel LogDetailLevel { get; set; }
 
@@ -32,6 +44,31 @@ namespace Chaotic.User
         public double PerformanceMultiplier { get; set; } = 1;
 
         public bool CaptureTimeoutScreenshot { get; set; } = true;
+
+        private bool _PreferKeyboardShortcuts = false;
+        public bool PreferKeyboardShortcuts
+        {
+            get { return _PreferKeyboardShortcuts; }
+            set
+            {
+                _PreferKeyboardShortcuts = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public UserKeyboardKey InteractShortcutKey { get; set; }
+        public UserKeyboardKey FastInteractShortcutKey { get; set; }
+        public UserKeyboardKey Special1ShortcutKey { get; set; }
+        public UserKeyboardKey Special2ShortcutKey { get; set; }
+        public UserKeyboardKey GuildShortcutKey { get; set; }
+        public UserKeyboardKey FriendsShortcutKey { get; set; }
+        public UserKeyboardKey PetShortcutKey { get; set; }
+        public UserKeyboardKey ContentShortcutKey { get; set; }
+        public UserKeyboardKey UnaShortcutKey { get; set; }
+        public UserKeyboardKey BifrostShortcutKey { get; set; }
+        public UserKeyboardKey MusicShortcutKey { get; set; }
+
 
         public bool GoOffline { get; set; } = true;
 

@@ -32,7 +32,7 @@ namespace Chaotic.Tasks
             _kb = kb;
             _r = r;
             _logger = logger;
-            _kc = new KeyConverter(); 
+            _kc = new KeyConverter();
         }
 
         public bool CrashCheck()
@@ -72,12 +72,19 @@ namespace Chaotic.Tasks
 
         public void GoOffline()
         {
+            _mouse.ClickCenterScreen(_r.CenterScreen);
             Sleep.SleepMs(500, 600);
             BackgroundProcessing.ProgressCheck();
 
             _logger.Log(LogDetailLevel.Debug, "Going to Offline Mode");
-            _mouse.ClickPosition(_r.CommunityMenu, 500);
-            _mouse.ClickPosition(_r.FriendsMenu, 1000);
+            if (_settings.PreferKeyboardShortcuts)
+                PressSpecialKey(_settings.FriendsShortcutKey, 1000);
+            else
+            {
+                _mouse.ClickPosition(_r.CommunityMenu, 500);
+                _mouse.ClickPosition(_r.FriendsMenu, 1000);
+            }
+
             _mouse.ClickPosition(_r.FriendsStatusChevron, 500);
             _mouse.ClickPosition(_r.FriendsOfflineOption, 500);
             _kb.Press(Key.Escape, 1000);
@@ -144,7 +151,7 @@ namespace Chaotic.Tasks
             {
                 Sleep.SleepMs(100, 200, _settings.PerformanceMultiplier);
                 _mouse.ClickPosition(ongoingButton.CenterX, ongoingButton.CenterY, 1000);
-                var completeButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("complete_button.png", _settings.Resolution), confidence: .95);
+                var completeButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("complete_button.png", _settings.Resolution), confidence: .95, maxTries: 3);
                 while (completeButton.Found)
                 {
                     Sleep.SleepMs(100, 200, _settings.PerformanceMultiplier);
@@ -234,7 +241,7 @@ namespace Chaotic.Tasks
             bool success = true;
             OpenPetMenu();
 
-            var remoteStorageButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("remotestorage_button.png", _settings.Resolution), confidence: .85);
+            var remoteStorageButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("remotestorage_button.png", _settings.Resolution), confidence: .8, maxTries: 3);
             if (remoteStorageButton.Found)
                 _mouse.ClickPosition(remoteStorageButton.CenterX, remoteStorageButton.CenterY, 1000);
             else
@@ -274,8 +281,14 @@ namespace Chaotic.Tasks
 
         public bool BifrostToPoint(int bifrost)
         {
-            _mouse.ClickPosition(_r.AdventureMenu, 1000);
-            _mouse.ClickPosition(_r.BifrostMenu, 1500);
+            if (_settings.PreferKeyboardShortcuts)
+                PressSpecialKey(_settings.BifrostShortcutKey, 1500);
+            else
+            {
+                _mouse.ClickPosition(_r.AdventureMenu, 1000);
+                _mouse.ClickPosition(_r.BifrostMenu, 1500);
+            }
+
             var bifrostPoint = (OpenCvSharp.Point)_r.GetType().GetProperty($"Bifrost{bifrost}").GetValue(_r);
             _mouse.ClickPosition(bifrostPoint, 1000);
 
@@ -300,14 +313,39 @@ namespace Chaotic.Tasks
             _kb.ControlPress(raidPreset, 500);
         }
 
+        public void PressSpecialKey(UserKeyboardKey key, int delayAfter = 0)
+        {
+            switch (key.Modifier)
+            {
+                case KeyboardModifier.Alt:
+                    _kb.AltPress(key.InputKey, delayAfter);
+                    break;
+                case KeyboardModifier.Shift:
+                    _kb.ShiftPress(key.InputKey, delayAfter);
+                    break;
+                case KeyboardModifier.Ctrl:
+                    _kb.ControlPress(key.InputKey, delayAfter);
+                    break;
+                default:
+                    _kb.Press(key.InputKey, delayAfter);
+                    break;
+            }
+        }
+
         public bool BuyGuildShop(UserCharacter character)
         {
             BackgroundProcessing.ProgressCheck();
             var success = true;
 
             Thread.Sleep(2000);
-            _mouse.ClickPosition(_r.CommunityMenu, 500);
-            _mouse.ClickPosition(_r.GuildMenu, 3200);
+            if (_settings.PreferKeyboardShortcuts)
+                PressSpecialKey(_settings.GuildShortcutKey, 3000);
+            else
+            {
+                _mouse.ClickPosition(_r.CommunityMenu, 500);
+                _mouse.ClickPosition(_r.GuildMenu, 3200);
+            }
+
             _mouse.ClickPosition(_r.GuildBloodstoneShopMenu, 1000);
             _mouse.ClickPosition(_r.GuildBloodstoneTicketMenu, 1000);
             _mouse.ClickPosition(_r.GuildBloodstoneDropdown, 1000);
@@ -320,6 +358,7 @@ namespace Chaotic.Tasks
             bool buySage = character.BuyGuildSage;
             bool buyAllied = character.BuyGuildAllied;
             bool buyAllied2 = character.BuyGuildAllied2;
+            bool buyYoz = character.BuyGuildYoz;
 
             int currentScroll = 0;
             int maxScroll = 3;
@@ -328,7 +367,7 @@ namespace Chaotic.Tasks
 
             _mouse.ClickPosition(_r.CenterScreen, 1000);
 
-            while ((buyMilitia || buyKnights || buyTarunian || buyLazenith || buySage || buyAllied) && currentScroll < maxScroll)
+            while ((buyMilitia || buyKnights || buyTarunian || buyLazenith || buySage || buyAllied || buyYoz) && currentScroll < maxScroll)
             {
                 if (buyMilitia)
                     success = success && BuyGuildTickets("militia_chest");
@@ -344,6 +383,8 @@ namespace Chaotic.Tasks
                     success = success && BuyGuildTickets("allied_chest");
                 if (buyAllied2)
                     success = success && BuyGuildTickets("allied2_chest");
+                if (buyYoz)
+                    success = success && BuyGuildTickets("yoz_chest");
 
                 _mouse.Scroll(MouseUtility.ScrollDirection.Down, 7);
                 currentScroll++;
@@ -453,11 +494,12 @@ namespace Chaotic.Tasks
         private bool BuyGuildTickets(string itemImg)
         {
             var success = true;
-            var results = IP.LocateOnScreen(Utility.ImageResourceLocation($"{itemImg}.png", _settings.Resolution, "guild"), confidence: .9);
+            var results = IP.LocateOnScreen(Utility.ImageResourceLocation($"{itemImg}.png", _settings.Resolution, "guild"), confidence: .87);
+            _logger.Log(LogDetailLevel.Debug, $"{itemImg} count: {results.Matches.Count}");
             foreach (var match in results.Matches)
             {
                 _mouse.ClickPosition(_r.GuildExchangeX, match.Center.Y, 1000);
-                var okButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation($"ok_button.png", _settings.Resolution), confidence: .8, breakAfterFirst: true);
+                var okButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation($"ok_button.png", _settings.Resolution), confidence: .7, breakAfterFirst: true, maxTries: 3);
                 if (okButton.Found)
                 {
                     _logger.Log(LogDetailLevel.Debug, $"Item {itemImg} OK Button found.  Confidence: {okButton.MaxConfidence}");
@@ -480,7 +522,7 @@ namespace Chaotic.Tasks
                 _mouse.ClickPosition(_r.SoloModeExchangeX, item.CenterY, 1000);
                 _mouse.ClickPosition(_r.SoloModeMax, 1000);
 
-                var okButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation($"ok_button.png", _settings.Resolution), confidence: .8, breakAfterFirst: true);
+                var okButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation($"ok_button.png", _settings.Resolution), confidence: .8, breakAfterFirst: true, maxTries: 3);
                 if (okButton.Found)
                 {
                     _logger.Log(LogDetailLevel.Debug, $"Item {itemImg} OK Button found.  Confidence: {okButton.MaxConfidence}");
@@ -511,7 +553,7 @@ namespace Chaotic.Tasks
 
 
 
-            var closeButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("x.png", _settings.Resolution), confidence: .8);
+            var closeButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("x.png", _settings.Resolution), confidence: .8, maxTries: 3);
             if (closeButton.Found)
                 _mouse.ClickPosition(closeButton.CenterX, closeButton.CenterY, 1000);
             else
@@ -529,9 +571,13 @@ namespace Chaotic.Tasks
 
         private void OpenPetMenu()
         {
-
-            _mouse.ClickPosition(_r.GuideMenu, 800);
-            _mouse.ClickPosition(_r.GuidePetMenu, 1500);
+            if (_settings.PreferKeyboardShortcuts)
+                _kb.AltPress(Key.P, 2000);
+            else
+            {
+                _mouse.ClickPosition(_r.GuideMenu, 1500);
+                _mouse.ClickPosition(_r.GuidePetMenu, 2000);
+            }
         }
 
         public bool GameMenuOpen()
@@ -553,11 +599,11 @@ namespace Chaotic.Tasks
             bool success = true;
             OpenPetMenu();
 
-            var repairButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("repair_button.png", _settings.Resolution), confidence: .85);
+            var repairButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("repair_button.png", _settings.Resolution), confidence: .7, maxTries: 3);
             if (repairButton.Found)
             {
                 _mouse.ClickPosition(repairButton.CenterX, repairButton.CenterY, 1000);
-                var repairAllButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("repairall_button.png", _settings.Resolution), confidence: .80);
+                var repairAllButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("repairall_button.png", _settings.Resolution), confidence: .80, maxTries: 3);
 
                 //Debug.Print($"Repair All Confidence: {repairAllButton.MaxConfidence}");
                 if (repairAllButton.Found)
@@ -591,11 +637,11 @@ namespace Chaotic.Tasks
                     break;
             }
 
-            var quitButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("quit_button.png", _settings.Resolution), confidence: .9);
+            var quitButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("quit_button.png", _settings.Resolution), confidence: .9, maxTries: 3);
             if (quitButton.Found)
             {
                 _mouse.ClickPosition(quitButton.Center, 1000);
-                var okButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), confidence: .9);
+                var okButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), confidence: .8, maxTries: 3);
 
                 if (okButton.Found)
                 {
@@ -634,10 +680,10 @@ namespace Chaotic.Tasks
             var charRow = (int)_r.GetType().GetProperty($"CharSelectRow{row}").GetValue(_r);
 
             _mouse.ClickPosition(charColumn, charRow, 500);
-            _mouse.ClickPosition(_r.ConnectButton, 1000);
+            _mouse.ClickPosition(_r.ConnectButton, 1500);
 
             //1550, 775, 300, 75,
-            var okButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), confidence: .95);
+            var okButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), confidence: .75, maxTries: 3);
 
             if (okButton.Found)
             {

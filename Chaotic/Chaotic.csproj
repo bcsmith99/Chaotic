@@ -248,6 +248,9 @@
     <None Update="Resources\Assets\1920x1080\guild\tarunian_chest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Assets\1920x1080\guild\yoz_chest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Assets\1920x1080\jump.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -282,6 +285,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Assets\1920x1080\kurzan_map3_stickpoint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Assets\1920x1080\kurzan_map4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Assets\1920x1080\kurzan_map5.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Assets\1920x1080\mats\t3_blue_1.png">
@@ -623,6 +632,9 @@
     <None Update="Resources\Assets\2560x1440\guild\tarunian_chest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Assets\2560x1440\guild\yoz_chest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Assets\2560x1440\jump.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -669,6 +681,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Assets\2560x1440\kurzan_map3_stickpoint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Assets\2560x1440\kurzan_map4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Assets\2560x1440\kurzan_map5.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Assets\2560x1440\mats\t3_blue_1.png">
@@ -1091,6 +1109,9 @@
     <None Update="Resources\Assets\3440x1440\guild\tarunian_chest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Assets\3440x1440\guild\yoz_chest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Assets\3440x1440\jump.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1143,6 +1164,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Assets\3440x1440\kurzan_map3_stickpoint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Assets\3440x1440\kurzan_map4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Assets\3440x1440\kurzan_map5.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Assets\3440x1440\mats\t3_blue_1.png">

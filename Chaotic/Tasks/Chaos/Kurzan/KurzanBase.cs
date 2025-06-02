@@ -78,8 +78,12 @@ namespace Chaotic.Tasks.Chaos.Kurzan
                     return new KurzanMap2(settings, mouse, kb, rh, logger);
                 case ChaosStates.KurzanMap3:
                     return new KurzanMap3(settings, mouse, kb, rh, logger);
+                case ChaosStates.KurzanMap5:
+                    return new KurzanMap5(settings, mouse, kb, rh, logger);
+
+                case ChaosStates.KurzanMap4: 
                 default:
-                    throw new NotImplementedException();
+                    return new KurzanMap4(settings, mouse, kb, rh, logger);
             }
         }
     }

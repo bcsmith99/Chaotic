@@ -4,6 +4,7 @@ using System.Windows;
 using OpenCvSharp.Extensions;
 using Point = OpenCvSharp.Point;
 using Rect = OpenCvSharp.Rect;
+using System.Diagnostics;
 
 namespace Chaotic.Utilities
 {
@@ -90,42 +91,66 @@ namespace Chaotic.Utilities
             return new Rect(Int32.Parse(coords[0]), Int32.Parse(coords[1]), Int32.Parse(coords[2]), Int32.Parse(coords[3]));
         }
 
-        public static ScreenSearchResult LocateCenterOnScreen(string filePath, Rect coords, double confidence = .999, bool useGrayscale = false, bool breakAfterFirst = true)
+        public static ScreenSearchResult LocateCenterOnScreen(string filePath, Rect coords, double confidence = .999, bool useGrayscale = false, bool breakAfterFirst = true, int maxTries = 1, int delay = 500)
         {
-            return LocateCenterOnScreen(filePath, coords.X, coords.Y, coords.Width, coords.Height, confidence, useGrayscale, breakAfterFirst);
+            return LocateCenterOnScreen(filePath, coords.X, coords.Y, coords.Width, coords.Height, confidence, useGrayscale, breakAfterFirst, maxTries, delay);
         }
 
-        public static ScreenSearchResult LocateCenterOnScreen(MemoryStream findImage, Rect coords, double confidence = .999, bool useGrayscale = false, bool breakAfterFirst = true)
+        public static ScreenSearchResult LocateCenterOnScreen(string fileName, MemoryStream findImage, Rect coords, double confidence = .999, bool useGrayscale = false, bool breakAfterFirst = true, int maxTries = 1, int delay = 500)
         {
-            return LocateCenterOnScreen(findImage, coords.X, coords.Y, coords.Width, coords.Height, confidence, useGrayscale, breakAfterFirst);
+            return LocateCenterOnScreen(fileName, findImage, coords.X, coords.Y, coords.Width, coords.Height, confidence, useGrayscale, breakAfterFirst, maxTries, delay);
         }
 
-        public static ScreenSearchResult LocateCenterOnScreen(string filePath, int x = 0, int y = 0, int? width = null, int? height = null, double confidence = .999, bool useGrayscale = false, bool breakAfterFirst = true)
+        public static ScreenSearchResult LocateCenterOnScreen(string filePath, int x = 0, int y = 0, int? width = null, int? height = null, double confidence = .999, bool useGrayscale = false, bool breakAfterFirst = true, int maxTries = 1, int delay = 500)
         {
             using (var fs = File.OpenRead(filePath))
             {
-                return LocateCenterOnScreen(fs, x, y, width, height, confidence, useGrayscale, breakAfterFirst);
+                return LocateCenterOnScreen(filePath, fs, x, y, width, height, confidence, useGrayscale, breakAfterFirst, maxTries, delay);
             }
         }
-        public static ScreenSearchResult LocateCenterOnScreen(Stream findImage, int x = 0, int y = 0, int? width = null, int? height = null, double confidence = .999, bool useGrayscale = false, bool breakAfterFirst = true)
+        public static ScreenSearchResult LocateCenterOnScreen(string fileName, Stream findImage, int x = 0, int y = 0, int? width = null, int? height = null, double confidence = .999, bool useGrayscale = false, bool breakAfterFirst = true, int maxTries = 1, int delay = 500)
         {
             var result = new ScreenSearchResult();
-            var imResult = LocateOnScreen(findImage, x, y, width, height, confidence, useGrayscale, breakAfterFirst);
-            result.MaxConfidence = Math.Round(imResult.MaxConfidence, 3, MidpointRounding.ToZero);
-            result.Matches = imResult.Matches;
+            try
+            {               
+                var currentTry = 0;
+                while (currentTry < maxTries)
+                {
+                    findImage.Position = 0; 
+                    var imResult = LocateOnScreen(findImage, x, y, width, height, confidence, useGrayscale, breakAfterFirst);
+                    result.MaxConfidence = Math.Round(imResult.MaxConfidence, 3, MidpointRounding.ToZero);
+                    result.Matches = imResult.Matches;
 
-            if (result.Matches.Any())
-            {
-                result.Found = true;
-                var top = result.Matches.OrderByDescending(x => x.Confidence).First();
+                    if (result.Matches.Any())
+                    {
+                        result.Found = true;
+                        var top = result.Matches.OrderByDescending(x => x.Confidence).First();
 
-                var center = GetMatchCenter(top.Match, x, y);
-                result.CenterX = center.X;
-                result.CenterY = center.Y;
+                        var center = GetMatchCenter(top.Match, x, y);
+                        result.CenterX = center.X;
+                        result.CenterY = center.Y;
+                        break;
+                    }
+                    else
+                    {
+
+                        result.Found = false;
+                        currentTry++;
+                        if (currentTry >= maxTries)
+                        {
+                            //Debug.WriteLine("Breaking LocateCenterOnScreen loop");
+                            break;
+                        }
+
+                        Debug.WriteLine($"{DateTime.Now.ToString("HH:mm:ss:ff")} - LocateCenterOnScreen - No Image found (${fileName}), retrying");
+                        Sleep.SleepMs(delay, delay);
+                    }
+                }
             }
-            else
-                result.Found = false;
-
+            catch(Exception e)
+            {
+                throw; 
+            }
             return result;
         }
 
@@ -285,11 +310,11 @@ namespace Chaotic.Utilities
 
                 return result;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                throw; 
+                throw;
             }
-            
+
         }
     }
 }

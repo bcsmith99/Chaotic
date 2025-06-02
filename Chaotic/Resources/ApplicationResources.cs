@@ -20,6 +20,7 @@ namespace Chaotic.Resources
         public Rect BossMobHealth { get; set; }
         public Rect BottomRightExit { get; set; }
         public Rect ChaosLeave { get; set; }
+        public Rect ChaosLeaveOk { get; set; }
         public Rect ChaosOk { get; set; }
         public Rect CharacterIcon { get; set; }
         public Rect Chevron { get; set; }
@@ -31,9 +32,12 @@ namespace Chaotic.Resources
         public Rect GuildSupportCancel { get; set; }
         public Rect HealthBar { get; set; }
         public Rect Inventory { get; set; }
+        public Rect KurzanAcceptModal { get; set; } 
         public Rect KurzanMap1PreferredArea { get; set; }
         public Rect KurzanMap2PreferredArea { get; set; }
         public Rect KurzanMap3PreferredArea { get; set; }
+
+        public Rect KurzanMap5PreferredArea { get; set; }
         public Rect KurzanMap3StickingPoint { get; set; }
         public Rect Minimap { get; set; }
         public Rect OngoingQuests { get; set; }
@@ -98,6 +102,13 @@ namespace Chaotic.Resources
         public Point Kurzan_1640 { get; set; }
         public Point Kurzan_1660 { get; set; }
         public Point Kurzan_1680 { get; set; }
+        public Point Kurzan_1700 { get; set; }
+
+        public Point Kurzan_1640_Menu { get; set; }
+        public Point Kurzan_1660_Menu { get; set; }
+        public Point Kurzan_1680_Menu { get; set; }
+        public Point Kurzan_1700_Menu { get; set; }
+
         public Point MinimapCenter { get; set; }
         public Point ServicesMenu { get; set; }
         public Point SwitchCharacterButton { get; set; }
@@ -125,6 +136,8 @@ namespace Chaotic.Resources
         public List<Point> KurzanMap1Start { get; set; }
         public List<Point> KurzanMap2Start { get; set; }
         public List<Point> KurzanMap3Start { get; set; }
+        public List<Point> KurzanMap4Start { get; set; }
+        public List<Point> KurzanMap5Start { get; set; }
         public List<Point> PlecciaShardClickpoints { get; set; }
         public List<Point> SouthKurzanLeapClickpoints { get; set; }
         public List<Point> UnaLopangRoute { get; set; }

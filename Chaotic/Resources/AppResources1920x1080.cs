@@ -28,24 +28,25 @@ namespace Chaotic.Resources
             BossMobHealth = new Rect(660, 150, 100, 100);
             BottomRightExit = new Rect(1770, 880, 110, 50);
             CenterScreen = new Point(960, 520);
-            ChaosDungeon_1415 = new Point(630,405);
-            ChaosDungeon_1445 = new Point(630,460);
-            ChaosDungeon_1475 = new Point(630,510);
-            ChaosDungeon_1490 = new Point(630,560);
-            ChaosDungeon_1520 = new Point(630,620);
-            ChaosDungeon_1540 = new Point(630,670);
-            ChaosDungeon_1560 = new Point(630,720);
-            ChaosDungeon_1580 = new Point(630,405);
-            ChaosDungeon_1600 = new Point(630,460);
-            ChaosDungeon_1610 = new Point(630,405);
+            ChaosDungeon_1415 = new Point(630, 405);
+            ChaosDungeon_1445 = new Point(630, 460);
+            ChaosDungeon_1475 = new Point(630, 510);
+            ChaosDungeon_1490 = new Point(630, 560);
+            ChaosDungeon_1520 = new Point(630, 620);
+            ChaosDungeon_1540 = new Point(630, 670);
+            ChaosDungeon_1560 = new Point(630, 720);
+            ChaosDungeon_1580 = new Point(630, 405);
+            ChaosDungeon_1600 = new Point(630, 460);
+            ChaosDungeon_1610 = new Point(630, 405);
 
-            ChaosDungeon_Elgacia = new Point(1300,315);
-            ChaosDungeon_RightArrow = new Point(1575,315);
-            ChaosDungeon_Shortcut = new Point(885,350);
-            ChaosDungeon_Vern = new Point(1160,315);
-            ChaosDungeon_Voldis = new Point(1450,315);
+            ChaosDungeon_Elgacia = new Point(1300, 315);
+            ChaosDungeon_RightArrow = new Point(1575, 315);
+            ChaosDungeon_Shortcut = new Point(885, 350);
+            ChaosDungeon_Vern = new Point(1160, 315);
+            ChaosDungeon_Voldis = new Point(1450, 315);
 
             ChaosLeave = new Rect(70, 300, 130, 75);
+            ChaosLeaveOk = new Rect(1470, 600, 300, 250);
             ChaosOk = new Rect(890, 840, 150, 40);
             CharacterIcon = new Rect(895, 820, 125, 125);
             CharacterMenu = new Point(1700, 920);
@@ -58,7 +59,7 @@ namespace Chaotic.Resources
             CharSelectRow2 = 620;
 
             Chevron = new Rect(1880, 140, 25, 25);
-            ClaimAll = new Rect(330,770,160,40);
+            ClaimAll = new Rect(330, 770, 160, 40);
             ClickableOffset = new Point(200, 150);
             ClickableRegion = new Rect(220, 225, 1300, 550);
             ClickableArea = new Point(500, 280);
@@ -99,25 +100,35 @@ namespace Chaotic.Resources
             Kurzan_1640 = new Point(830, 675);
             Kurzan_1660 = new Point(965, 595);
             Kurzan_1680 = new Point(1140, 450);
+            Kurzan_1700 = new Point(1140, 450);
+
+            Kurzan_1640_Menu = new Point(370, 570);
+            Kurzan_1660_Menu = new Point(370, 635);
+            Kurzan_1680_Menu = new Point(370, 700);
+            Kurzan_1700_Menu = new Point(370, 760);
+            KurzanAcceptModal = new Rect(650, 400, 600, 300);
             KurzanMap1PreferredArea = new Rect(900, 225, 600, 400);
             KurzanMap1Start = new List<Point>
             {
                 new Point(400,333),
                 new Point(1030,200)
             };
-            KurzanMap2PreferredArea = new Rect(225,400,500,300);
+            KurzanMap2PreferredArea = new Rect(225, 400, 500, 300);
             KurzanMap2Start = new List<Point>
             {
                 new Point(800,185),
                 new Point(550,275)
             };
-            KurzanMap3PreferredArea = new Rect(225,230,800,350);
+            KurzanMap3PreferredArea = new Rect(225, 230, 800, 350);
             KurzanMap3Start = new List<Point>
             {
                 new Point(600,215)
             };
-            KurzanMap3StickingPoint = new Rect(920,130,500,170);
+            KurzanMap3StickingPoint = new Rect(920, 130, 500, 170);
 
+            KurzanMap4Start = new List<Point>() { new Point(330, 500) };
+            KurzanMap5Start = new List<Point>() { new Point(1460, 300) };
+            KurzanMap5PreferredArea = new Rect(800, 150, 600, 500);
 
             MinimapCenter = new Point(1788, 260);
             Minimap = new Rect(1675, 165, 225, 195);//1900,360
@@ -198,7 +209,7 @@ namespace Chaotic.Resources
             UnaWeeklyDropdownFavorite = new Point(600, 332);
             UnaWeeklyRegion = new Rect(1165, 350, 100, 350);
             VoldisLeapClose = new Rect(800, 200, 500, 250);
-            VoldisLeapNpc = new Rect(1350,350,275,300);
+            VoldisLeapNpc = new Rect(1350, 350, 275, 300);
             SoloModeExchangeX = 990;
             SoloModeMax = new Point(860, 525);
             SoloModeShareRewards = new Point(760, 270);

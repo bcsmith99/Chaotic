@@ -47,6 +47,7 @@ namespace Chaotic.Resources
             ChaosDungeon_Voldis = new Point(2580, 310);
 
             ChaosLeave = new Rect(110, 350, 150, 50);
+            ChaosLeaveOk = new Rect(1470, 600, 300, 250);
             ChaosOk = new Rect(1600, 1250, 300, 50);
             CharacterIcon = new Rect(1620, 1250, 200, 175);
             CharacterMenu = new Point(3030, 1390);
@@ -98,9 +99,19 @@ namespace Chaotic.Resources
 
             HealthBar = new Rect(1260, 1270, 330, 30);
             Inventory = new Rect(1950, 300, 700, 800);
+
             Kurzan_1640 = new Point(1490, 1040);
             Kurzan_1660 = new Point(1725, 888);
             Kurzan_1680 = new Point(2035, 600);
+            Kurzan_1700 = new Point(2035, 600);
+
+            Kurzan_1640_Menu = new Point(930, 760);
+            Kurzan_1660_Menu = new Point(930, 850);
+            Kurzan_1680_Menu = new Point(930, 930);
+            Kurzan_1700_Menu = new Point(930, 1020);
+
+
+            KurzanAcceptModal = new Rect(1475, 600, 500, 250);
             KurzanMap1PreferredArea = new Rect(1600, 100, 1200, 600);
             KurzanMap1Start = new List<Point>
             {
@@ -120,6 +131,9 @@ namespace Chaotic.Resources
             };
             KurzanMap3StickingPoint = new Rect(1400, 0, 1200, 280);
 
+            KurzanMap4Start = new List<Point>() { new Point(650, 650) };
+            KurzanMap5Start = new List<Point>() { new Point(2700, 400) };
+            KurzanMap5PreferredArea = new Rect(1500, 400, 1100, 450);
 
             MinimapCenter = new Point(3190, 222);
             Minimap = new Rect(2990, 50, 400, 350);

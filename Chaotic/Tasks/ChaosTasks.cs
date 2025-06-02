@@ -50,6 +50,8 @@ namespace Chaotic.Tasks
             KurzanMap1,
             KurzanMap2,
             KurzanMap3,
+            KurzanMap4,
+            KurzanMap5,
             Floor1,
             Floor2,
             Floor3,
@@ -316,7 +318,7 @@ namespace Chaotic.Tasks
                         break;
 
                     //1500, 1000, 500, 400,
-                    var ok_chaos = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_chaos.png", _settings.Resolution), _r.ChaosOk, confidence: .70);
+                    var ok_chaos = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_chaos.png", _settings.Resolution), _r.ChaosOk, confidence: .6);
 
                     if (ok_chaos.Found)
                     {
@@ -650,33 +652,55 @@ namespace Chaotic.Tasks
 
         public bool QuitChaos(bool skipOk = false)
         {
+            _logger.Log(LogDetailLevel.Debug, "Inside Quit Chaos Routine");
             //1500, 1000, 500, 400,
-            var ok_chaos = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_chaos.png", _settings.Resolution), confidence: .55);
+            var maxTries = 5;
+            var currentTries = 0;
 
-            if (ok_chaos.Found || skipOk)
+            while (currentTries < maxTries)
             {
-                if (ok_chaos.Found)
-                    _mouse.ClickPosition(ok_chaos.CenterX, ok_chaos.CenterY, 1000);
-
-                //190, 350, 170, 50,
-                var exit_chaos = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("exit_chaos.png", _settings.Resolution), confidence: .65);
-
-                if (exit_chaos.Found)
+                var ok_chaos = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_chaos.png", _settings.Resolution), _r.ChaosOk, confidence: .55, maxTries: 3);
+                //var ok_chaos = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_chaos.png", _settings.Resolution), confidence: .55);
+                if (ok_chaos.Found || skipOk)
                 {
-                    _mouse.ClickPosition(exit_chaos.CenterX, exit_chaos.CenterY, 1000);
-                    //IP.SHOW_DEBUG_IMAGES = true;
-                    //1550, 750, 250, 75,
-                    var ok_button = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), confidence: .7);
-                    if (ok_button.Found)
+                    if (ok_chaos.Found)
+                        _mouse.ClickPosition(ok_chaos.CenterX, ok_chaos.CenterY, 1000);
+
+                    //190, 350, 170, 50,
+                    var exit_chaos = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("exit_chaos.png", _settings.Resolution), confidence: .65, maxTries: 3);
+
+                    if (exit_chaos.Found)
                     {
-                        _logger.Log(LogDetailLevel.Debug, $"Found ok button to quit, confidence: {ok_button.MaxConfidence}");
-                        _mouse.ClickPosition(ok_button.CenterX, ok_button.CenterY, 5000);
-                        var exited = _uiTasks.InAreaCheck(30);
-                        if (exited)
-                            return true;
+                        _mouse.ClickPosition(exit_chaos.CenterX, exit_chaos.CenterY, 1500);
+                        //IP.SHOW_DEBUG_IMAGES = true;
+                        //1550, 750, 250, 75,
+                        var ok_button = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), _r.ChaosLeaveOk, confidence: .7, maxTries: 3);
+                        if (ok_button.Found)
+                        {
+                            _logger.Log(LogDetailLevel.Debug, $"Found ok button to quit, confidence: {ok_button.MaxConfidence}");
+                            _mouse.ClickPosition(ok_button.CenterX, ok_button.CenterY, 5000);
+                            var exited = _uiTasks.InAreaCheck(30);
+                            if (exited)
+                                return true;
+                        }
+                        else
+                        {
+                            _logger.Log(LogDetailLevel.Debug, $"Ok button to quit not found, confidence: {ok_button.MaxConfidence}");
+
+                        }
                     }
+
+                    break;
+                }
+                else
+                {
+                    _logger.Log(LogDetailLevel.Debug, $"Ok button not found on screen. Current Attempt: {currentTries}");
+                    Sleep.SleepMs(200, 300);
+                    currentTries++;
                 }
             }
+
+
 
             return false;
         }
@@ -825,19 +849,19 @@ namespace Chaotic.Tasks
 
                     else if (CurrentState == ChaosStates.Floor2)
                     {
-
-                        if (boss.Found)
+                        if (elite.Found)
+                        {
+                            CalcMinimapPos(elite.CenterX, elite.CenterY);
+                            MoveOnScreen(MoveToPoint.X, MoveToPoint.Y, 750, 850, false);
+                        }
+                        else if (boss.Found)
                         {
                             CalcMinimapPos(boss.CenterX, boss.CenterY);
                             MoveOnScreen(MoveToPoint.X, MoveToPoint.Y, 950, 1050, true);
                             if (CheckBossMobHealthBar())
                                 cc.UseAwakening(MoveToPoint);
                         }
-                        else if (elite.Found)
-                        {
-                            CalcMinimapPos(elite.CenterX, elite.CenterY);
-                            MoveOnScreen(MoveToPoint.X, MoveToPoint.Y, 750, 850, false);
-                        }
+
                     }
 
                     else if (CurrentState == ChaosStates.Floor3 && CheckTower())
@@ -998,7 +1022,7 @@ namespace Chaotic.Tasks
         {
             //IP.SHOW_DEBUG_IMAGES = true;
             //1600, 1250, 200, 75, 
-            var ok_chaos = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_chaos.png", _settings.Resolution), confidence: .55);
+            var ok_chaos = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_chaos.png", _settings.Resolution), _r.ChaosOk, confidence: .55);
 
             if (ok_chaos.Found)
                 _logger.Log(LogDetailLevel.Debug, "Ok Button found - quitting chaos");
@@ -1284,13 +1308,13 @@ namespace Chaotic.Tasks
 
             if (retVal)
             {
-                var enterButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("enter_button.png", _settings.Resolution), confidence: .95);
+                var enterButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("enter_button.png", _settings.Resolution), confidence: .9, maxTries: 5);
 
                 if (enterButton.Found)
                 {
                     _mouse.ClickPosition(enterButton.CenterX, enterButton.CenterY, 1000);
                     //ImageProcessing.SHOW_DEBUG_IMAGES = true;
-                    var acceptButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("accept_check_button.png", _settings.Resolution), confidence: .95);
+                    var acceptButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("accept_check_button.png", _settings.Resolution), confidence: .9, maxTries: 3);
                     //ImageProcessing.SHOW_DEBUG_IMAGES = false;
                     if (acceptButton.Found)
                     {
@@ -1325,23 +1349,36 @@ namespace Chaotic.Tasks
             BackgroundProcessing.ProgressCheck();
             CurrentState = ChaosStates.InCity;
             _mouse.ClickCenterScreen(CenterScreen);
-            _kb.AltPress(Key.Q, 1500);
 
-            var kurzanChaos = (OpenCvSharp.Point)_r.GetType().GetProperty($"Kurzan_{character.ChaosLevel}").GetValue(_r);
-            _mouse.ClickPosition(kurzanChaos, 800);
+            if (_settings.PreferKeyboardShortcuts)
+                _uiTasks.PressSpecialKey(_settings.ContentShortcutKey);
+            else
+                _kb.AltPress(Key.Q, 2000);
+
+            var kurzanChaos = (OpenCvSharp.Point)_r.GetType().GetProperty($"Kurzan_{character.ChaosLevel}")?.GetValue(_r);
+
+            _mouse.SetPosition(kurzanChaos);
+            Sleep.SleepMs(1500, 2000);
+            _mouse.ClickPosition(kurzanChaos, 1500);
+
+
+            var kurzanChaosMenu = (OpenCvSharp.Point)_r.GetType().GetProperty($"Kurzan_{character.ChaosLevel}_Menu")?.GetValue(_r);
+
+            _mouse.ClickPosition(kurzanChaosMenu, 1500);
 
             var cc = ChaosClass.Create(_settings, character, _r, _kb, _mouse, _logger);
 
-            var enterButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("enter_button.png", _settings.Resolution), confidence: .85);
+            var enterButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("enter_button.png", _settings.Resolution), confidence: .8, maxTries: 3);
 
             if (enterButton.Found)
             {
                 _mouse.ClickPosition(enterButton.CenterX, enterButton.CenterY, 1000);
                 //ImageProcessing.SHOW_DEBUG_IMAGES = true;
-                var acceptButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("accept_check_button.png", _settings.Resolution), confidence: .9);
+                var acceptButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("accept_check_button.png", _settings.Resolution), _r.KurzanAcceptModal, confidence: .8, maxTries: 3);
                 //ImageProcessing.SHOW_DEBUG_IMAGES = false;
                 if (acceptButton.Found)
                 {
+                    _logger.Log(LogDetailLevel.Debug, $"Kurzan Front Accept Found, Highest Confidence: {acceptButton.MaxConfidence}");
                     _mouse.ClickPosition(acceptButton.CenterX, acceptButton.CenterY, 5000);
                     if (_uiTasks.InAreaCheck())
                     {
@@ -1353,13 +1390,17 @@ namespace Chaotic.Tasks
                 }
                 else
                 {
-                    _logger.Log(LogDetailLevel.Debug, $"Accept Not Found, Highest Confidence: {acceptButton.MaxConfidence}");
+                    _logger.Log(LogDetailLevel.Debug, $"Kurzan Front Accept Not Found, Highest Confidence: {acceptButton.MaxConfidence}");
                     return false;
                 }
 
             }
             else
+            {
+                _logger.Log(LogDetailLevel.Debug, "Kurzan Front enter button not found.");
                 return false;
+            }
+
 
             return true;
         }
@@ -1375,6 +1416,7 @@ namespace Chaotic.Tasks
                 var map1 = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("kurzan_map1.png", _settings.Resolution), MinimapRegion, .75);
                 var map2 = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("kurzan_map2.png", _settings.Resolution), MinimapRegion, .75);
                 var map3 = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("kurzan_map3.png", _settings.Resolution), MinimapRegion, .75);
+                var map4 = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("kurzan_map4.png", _settings.Resolution), MinimapRegion, .75);
 
                 if (map1.Found)
                 {
@@ -1392,29 +1434,48 @@ namespace Chaotic.Tasks
                     CurrentState = ChaosStates.KurzanMap3;
                     breakLoop = true;
                 }
+                if (map4.Found)
+                {
+                    CurrentState = ChaosStates.KurzanMap4;
+                    breakLoop = true;
+                }
 
                 if (breakLoop)
+                {
+                    if (CurrentState != ChaosStates.KurzanMap1 && CurrentState != ChaosStates.KurzanMap2 && CurrentState != ChaosStates.KurzanMap3)
+                        CurrentState = ChaosStates.KurzanMap4;
                     break;
+                }
+                tries++;
+
             }
         }
 
         private bool SelectChaosDungeon(UserCharacter character)
         {
+            _mouse.ClickCenterScreen(CenterScreen);
+            Sleep.SleepMs(1000, 1500);
 
-            //Todo remove alt-q and go through adventure menu. 
-            _kb.AltPress(Key.Q, 1000);
-            _mouse.ClickPosition(_r.ChaosDungeon_Shortcut, 500);
+            _logger.Log(LogDetailLevel.Debug, "Attempting to select Chaos Dungeon");
 
-            var claimAll = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("claimall_button.png", _settings.Resolution), _r.ClaimAll, .95);
+            if (_settings.PreferKeyboardShortcuts)
+                _uiTasks.PressSpecialKey(_settings.ContentShortcutKey, 1500);
+            else
+                _kb.AltPress(Key.Q, 1000);
+
+            _mouse.ClickPosition(_r.ChaosDungeon_Shortcut, 1500);
+
+            var claimAll = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("claimall_button.png", _settings.Resolution), _r.ClaimAll, .9, maxTries: 3);
 
             if (claimAll.Found)
             {
                 _mouse.ClickPosition(claimAll.Center, 500);
-                var okButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), ClickableRegion, .75);
+                var okButton = IP.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), ClickableRegion, .75, maxTries: 3);
                 if (okButton.Found)
                     _mouse.ClickPosition(okButton.Center, 500);
             }
 
+            _logger.Log(LogDetailLevel.Debug, "Clicking Right Arrows on Chaos Dungeon Selection"); 
             _mouse.ClickPosition(_r.ChaosDungeon_RightArrow, 300);
             _mouse.ClickPosition(_r.ChaosDungeon_RightArrow, 300);
             _mouse.ClickPosition(_r.ChaosDungeon_RightArrow, 300);
@@ -1424,6 +1485,7 @@ namespace Chaotic.Tasks
 
             _mouse.ClickPosition(chaosPoint, 500);
 
+            _logger.Log(LogDetailLevel.Debug, "Leaving Chaos Dungeon Selection"); 
             return true;
         }
 

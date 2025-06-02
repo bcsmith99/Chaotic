@@ -22,14 +22,16 @@ namespace Chaotic.Tasks
         private readonly KeyboardUtility _kb;
         private readonly ApplicationResources _r;
         private readonly AppLogger _logger;
+        private readonly UITasks _uiTasks;
 
-        public GuildTasks(UserSettings settings, MouseUtility mouse, KeyboardUtility kb, ApplicationResources r,AppLogger logger)
+        public GuildTasks(UserSettings settings, UITasks ui, MouseUtility mouse, KeyboardUtility kb, ApplicationResources r, AppLogger logger)
         {
             _settings = settings;
             _mouse = mouse;
             _kb = kb;
             _r = r;
             _logger = logger;
+            _uiTasks = ui;
         }
         public bool PerformGuildTasks(UserCharacter character)
         {
@@ -39,11 +41,17 @@ namespace Chaotic.Tasks
                 return retVal;
 
             Thread.Sleep(2000);
-            _mouse.ClickPosition(_r.CommunityMenu, 500);
-            _mouse.ClickPosition(_r.GuildMenu, 3200);
+            if (_settings.PreferKeyboardShortcuts)
+                _uiTasks.PressSpecialKey(_settings.GuildShortcutKey, 3000);
+            else
+            {
+                _mouse.ClickPosition(_r.CommunityMenu, 500);
+                _mouse.ClickPosition(_r.GuildMenu, 3000);
+            }
+
 
             //1630, 710, 200, 60,
-            var ok = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), confidence: .87);
+            var ok = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("ok_button.png", _settings.Resolution), confidence: .8, maxTries: 3);
 
             if (ok.Found)
             {
@@ -54,7 +62,7 @@ namespace Chaotic.Tasks
             if (character.GuildDonationGold || character.GuildDonationSilver)
             {
                 //2500, 370, 200, 60,
-                var donateButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("donate_button.png", _settings.Resolution), confidence: .95);
+                var donateButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("donate_button.png", _settings.Resolution), confidence: .9, maxTries: 3);
 
                 if (donateButton != null)
                 {
@@ -63,7 +71,7 @@ namespace Chaotic.Tasks
                     if (character.GuildDonationSilver)
                     {
                         // 1250, 680, 250, 100,
-                        var silverDono = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("donate_silver.png", _settings.Resolution), _r.SilverDonate, confidence: .95);
+                        var silverDono = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("donate_silver.png", _settings.Resolution), _r.SilverDonate, confidence: .9, maxTries: 3);
                         if (silverDono != null)
                         {
                             _logger.Log(LogDetailLevel.Debug, $"Silver Donate - X: {silverDono.CenterX}, Y: {silverDono.CenterY}");
@@ -74,7 +82,7 @@ namespace Chaotic.Tasks
                     if (character.GuildDonationGold)
                     {
                         //1600, 680, 250, 100,
-                        var goldDono = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("donate_silver.png", _settings.Resolution), _r.GoldDonate, confidence: .95);
+                        var goldDono = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("donate_silver.png", _settings.Resolution), _r.GoldDonate, confidence: .9);
                         if (goldDono != null)
                         {
                             _logger.Log(LogDetailLevel.Debug, $"Gold Donate - X: {goldDono.CenterX}, Y: {goldDono.CenterY}");
