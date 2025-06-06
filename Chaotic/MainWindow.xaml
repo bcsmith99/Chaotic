@@ -754,6 +754,7 @@
 									<Label Content="Special 2 (X)"></Label>
 									<Label Content="Guild Menu (Alt-U)"></Label>
 									<Label Content="Friends Menu (U)"></Label>
+									<Label Content="Character Profile (P)"></Label>
 									<Label Content="Pet Menu (Alt-P)"></Label>
 									<Label Content="Content Menu (Alt-Q)"></Label>
 									<Label Content="Una Menu (Alt-J)"></Label>
@@ -786,6 +787,9 @@
 											  DisplayMemberPath="Display"></ComboBox>
 									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
 											  SelectedItem="{Binding UserSettings.FriendsShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											  DisplayMemberPath="Display"></ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
+											  SelectedItem="{Binding UserSettings.ProfileShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 											  DisplayMemberPath="Display"></ComboBox>
 									<ComboBox ItemsSource="{Binding AvailableKeyboardKeys}"
 											  SelectedItem="{Binding UserSettings.PetShortcutKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

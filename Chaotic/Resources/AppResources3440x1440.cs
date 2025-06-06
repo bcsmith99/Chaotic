@@ -103,7 +103,7 @@ namespace Chaotic.Resources
             Kurzan_1640 = new Point(1490, 1040);
             Kurzan_1660 = new Point(1725, 888);
             Kurzan_1680 = new Point(2035, 600);
-            Kurzan_1700 = new Point(2035, 600);
+            Kurzan_1700 = new Point(2475, 600);
 
             Kurzan_1640_Menu = new Point(930, 760);
             Kurzan_1660_Menu = new Point(930, 850);

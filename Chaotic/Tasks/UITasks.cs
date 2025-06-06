@@ -494,7 +494,7 @@ namespace Chaotic.Tasks
         private bool BuyGuildTickets(string itemImg)
         {
             var success = true;
-            var results = IP.LocateOnScreen(Utility.ImageResourceLocation($"{itemImg}.png", _settings.Resolution, "guild"), confidence: .87);
+            var results = IP.LocateOnScreen(Utility.ImageResourceLocation($"{itemImg}.png", _settings.Resolution, "guild"), confidence: .83);
             _logger.Log(LogDetailLevel.Debug, $"{itemImg} count: {results.Matches.Count}");
             foreach (var match in results.Matches)
             {
@@ -572,7 +572,7 @@ namespace Chaotic.Tasks
         private void OpenPetMenu()
         {
             if (_settings.PreferKeyboardShortcuts)
-                _kb.AltPress(Key.P, 2000);
+                PressSpecialKey(_settings.PetShortcutKey, 2000);
             else
             {
                 _mouse.ClickPosition(_r.GuideMenu, 1500);
@@ -595,15 +595,16 @@ namespace Chaotic.Tasks
         public bool AuraRepair()
         {
             _logger.Log(LogDetailLevel.Debug, "Attempting Aura Repair");
-            BackgroundProcessing.ProgressCheck();
+            BackgroundProcessing.ProgressCheck(); _mouse.ClickCenterScreen(_r.CenterScreen);
             bool success = true;
             OpenPetMenu();
 
-            var repairButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("repair_button.png", _settings.Resolution), confidence: .7, maxTries: 3);
+            var repairButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("repair_button.png", _settings.Resolution), confidence: .8, maxTries: 5);
             if (repairButton.Found)
             {
+                _logger.Log(LogDetailLevel.Debug, $"Repair Button Found - Max Confidence: {repairButton.MaxConfidence} at X:{repairButton.CenterX}, Y: {repairButton.CenterY}");
                 _mouse.ClickPosition(repairButton.CenterX, repairButton.CenterY, 1000);
-                var repairAllButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("repairall_button.png", _settings.Resolution), confidence: .80, maxTries: 3);
+                var repairAllButton = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("repairall_button.png", _settings.Resolution), confidence: .75, maxTries: 10);
 
                 //Debug.Print($"Repair All Confidence: {repairAllButton.MaxConfidence}");
                 if (repairAllButton.Found)

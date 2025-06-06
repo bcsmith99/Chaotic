@@ -71,7 +71,7 @@ namespace Chaotic.Tasks
                     if (character.GuildDonationSilver)
                     {
                         // 1250, 680, 250, 100,
-                        var silverDono = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("donate_silver.png", _settings.Resolution), _r.SilverDonate, confidence: .9, maxTries: 3);
+                        var silverDono = ImageProcessing.LocateCenterOnScreen(Utility.ImageResourceLocation("donate_silver.png", _settings.Resolution), _r.SilverDonate, confidence: .8, maxTries: 3);
                         if (silverDono != null)
                         {
                             _logger.Log(LogDetailLevel.Debug, $"Silver Donate - X: {silverDono.CenterX}, Y: {silverDono.CenterY}");

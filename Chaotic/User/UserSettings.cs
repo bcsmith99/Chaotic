@@ -68,6 +68,7 @@ namespace Chaotic.User
         public UserKeyboardKey UnaShortcutKey { get; set; }
         public UserKeyboardKey BifrostShortcutKey { get; set; }
         public UserKeyboardKey MusicShortcutKey { get; set; }
+        public UserKeyboardKey ProfileShortcutKey { get; set; }
 
 
         public bool GoOffline { get; set; } = true;
